@@ -68,3 +68,29 @@ Route::get('roles', function() {
     $user->load('roles');
     dd($user->roles);
 });
+
+Route::get('sync', function() {
+    $roleAdmin  = App\Role::whereName('admin')->first();
+    $roleEditor = App\Role::whereName('editor')->first();
+
+    $user = App\User::first();
+
+    // attach
+    // $user->roles()->attach($roleAdmin->id);
+
+    // detach
+    // $user->roles()->detach($roleAdmin->id);
+
+    // get all roles
+    // check which roles already exist
+    // check which roles dont exist
+
+    // sync
+    $user->roles()->sync([$roleEditor->id]);
+
+    foreach ($user->roles as $role) {
+        print_r($role->name . '<br>');
+    }
+
+    dd('done!');
+});
